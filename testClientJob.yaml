@@ -1,0 +1,19 @@
+apiVersion: batch/v1 
+kind: Job 
+metadata:   
+  name: voter-job 
+  labels:     
+    jobgroup: testclient 
+spec:   
+  template:     
+    metadata:       
+      name: kubejob       
+      labels:         
+        jobgroup: testclient     
+    spec:       
+      containers:       
+      - name: c         
+        image: jadejakajal13/k8s-voter:1
+        # args "file", mode, hosts, display interval, warmup, duration, contestants, maxvotes, ratelimit
+        args: ["./k8s-run.sh", "async-benchmark", "mydb-voltdb-cluster-client.voltdb.svc.cluster.local", "10" ,"5", "120", "6", "8" ,"3000"]       
+      restartPolicy: OnFailure

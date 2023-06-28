@@ -1,0 +1,19 @@
+apiVersion: batch/v1 
+kind: Job 
+metadata:   
+  name: voter-init-job 
+  labels:     
+    jobgroup: testclient 
+spec:   
+  template:     
+    metadata:       
+      name: kubejob       
+      labels:         
+        jobgroup: testclient     
+    spec:       
+      containers:       
+      - name: c         
+        image: jadejakajal13/k8s-voter:1
+        # args "file", mode, hosts
+        args: ["./k8s-run.sh", "init", "mydb-voltdb-cluster-client.voltdb.svc.cluster.local"]       
+      restartPolicy: OnFailure
